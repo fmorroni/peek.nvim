@@ -55,15 +55,15 @@ addEventListener('DOMContentLoaded', () => {
   if (peek.ctx === 'webview') zoom.init();
 
   document.addEventListener('keydown', (event: KeyboardEvent) => {
-    if (peek.ctx === 'webview' && event.ctrlKey) {
+    if (peek.ctx === 'webview') {
       switch (event.key) {
-        case '=':
+        case '+':
           zoom.up();
           return;
         case '-':
           zoom.down();
           return;
-        case '0':
+        case '*':
           zoom.reset();
           return;
       }
