@@ -39,7 +39,18 @@ const md = new MarkdownIt('default', {
     engine: Katex,
     delimiters: ['gitlab', 'dollars'],
     katexOptions: {
-      macros: { '\\R': '\\mathbb{R}' },
+      macros: {
+        '\\R': '\\mathbb{R}',
+        '\\tab': (context: any) => {
+          let [arg] = context.consumeArgs(1);
+          arg = arg
+            .reverse()
+            .map((token) => token.text)
+            .join('');
+          arg = Number(arg);
+          return '\\quad'.repeat(arg);
+        },
+      },
       strict: false,
       throwOnError: false,
     },
