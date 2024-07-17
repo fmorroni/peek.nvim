@@ -3,5 +3,5 @@ public/*
 !public/style.css
 !public/callouts.css
 .luarc.json
-peek.log
+*.log
 deno.lock

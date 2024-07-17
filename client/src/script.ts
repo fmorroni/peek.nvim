@@ -53,44 +53,38 @@ addEventListener('DOMContentLoaded', () => {
   if (peek.ctx === 'webview') zoom.init();
 
   document.addEventListener('keydown', (event: KeyboardEvent) => {
-    if (peek.ctx === 'webview') {
-      switch (event.key) {
-        case '+':
-          zoom.up();
-          return;
-        case '-':
-          zoom.down();
-          return;
-        case '*':
-          zoom.reset();
-          return;
-      }
-    }
-    switch (event.key) {
-      case 'j':
+    const webviewOnly: Record<string, () => void> = {
+      '+': zoom.up.bind(zoom),
+      '-': zoom.down.bind(zoom),
+      '*': zoom.reset.bind(zoom),
+    };
+    const plain: Record<string, (() => void) | undefined> = {
+      j: () => {
         window.scrollBy({ top: 50 });
-        break;
-      case 'k':
+      },
+      k: () => {
         window.scrollBy({ top: -50 });
-        break;
-      case 'l':
-        window.scrollBy({ left: 50 });
-        break;
-      case 'h':
-        window.scrollBy({ left: -50 });
-        break;
-      case 'd':
+      },
+      d: () => {
         window.scrollBy({ top: window.innerHeight / 2 });
-        break;
-      case 'u':
+      },
+      u: () => {
         window.scrollBy({ top: -window.innerHeight / 2 });
-        break;
-      case 'g':
+      },
+      g: () => {
         window.scrollTo({ top: 0 });
-        break;
-      case 'G':
-        window.scrollTo({ top: document.body.scrollHeight * zoom.level });
-        break;
+      },
+      G: () => {
+        window.scrollTo({ top: document.body.scrollHeight });
+      },
+    };
+    let action = plain[event.key];
+    if (!action && peek.ctx === 'webview') {
+      action = webviewOnly[event.key];
+    }
+    if (action) {
+      event.preventDefault();
+      action();
     }
   });
 

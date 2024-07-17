@@ -83,7 +83,9 @@ local function open(bufnr)
     nvim_create_autocmd('BufEnter', {
       group = augroup,
       callback = function(arg)
-        if vim.tbl_contains(config.get('filetype'), vim.bo[arg.buf].filetype) then
+        local filetype = config.get('filetype')
+        assert(type(filetype) == "table", "Filetype should be of type 'table'")
+        if vim.tbl_contains(filetype, vim.bo[arg.buf].filetype) then
           show_throttled:clear()
           open(arg.buf)
         end
@@ -104,7 +106,7 @@ end
 module.open = ensure_init(function()
   local bufnr = vim.api.nvim_get_current_buf()
   local filetype = config.get('filetype')
-
+  assert(type(filetype) == "table", "Filetype should be of type 'table'")
   if not vim.tbl_contains(filetype, vim.bo[bufnr].filetype) then
     ---@diagnostic disable-next-line: param-type-mismatch
     return vim.api.nvim_notify('Not a supported filetype: ' .. table.concat(filetype, ', '), vim.log.levels.WARN, {})
