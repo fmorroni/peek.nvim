@@ -43,11 +43,9 @@ addEventListener('DOMContentLoaded', () => {
       markdownBody.style.setProperty('font-size', `${this.level}%`);
       if (silent) return;
       this.zoomLabel.textContent = `${this.level}%`;
-      this.zoomLabel.animate([
-        { opacity: 1 },
-        { opacity: 1, offset: 0.75 },
-        { opacity: 0 },
-      ], { duration: 1000 });
+      this.zoomLabel.animate([{ opacity: 1 }, { opacity: 1, offset: 0.75 }, { opacity: 0 }], {
+        duration: 1000,
+      });
     },
   };
 

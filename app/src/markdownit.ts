@@ -17,18 +17,21 @@ const md = new MarkdownIt('default', {
   typographer: true,
   linkify: true,
   langPrefix: 'language-',
-  highlight: __args['syntax'] && ((code, language) => {
-    if (language && highlight.getLanguage(language)) {
-      try {
-        return highlight.highlight(code, { language }).value;
-      } catch {
-        return code;
+  highlight:
+    __args['syntax'] &&
+    ((code, language) => {
+      if (language && highlight.getLanguage(language)) {
+        try {
+          return highlight.highlight(code, { language }).value;
+        } catch {
+          return code;
+        }
       }
-    }
 
-    return '';
-  }),
-}).use(MarkdownItEmoji)
+      return '';
+    }),
+})
+  .use(MarkdownItEmoji)
   .use(MarkdownItCallouts)
   .use(MarkdownItFootnote)
   .use(MarkdownItTaskLists, { enabled: false, label: true })
